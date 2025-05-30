@@ -1,5 +1,5 @@
 import requests
-from config import API_KEY, BASE_URL # Imports API credentials from the config file
+from config import BASE_URL # Imports API credentials from the config file
 
 def convert_currency(base, target, amount):
 
