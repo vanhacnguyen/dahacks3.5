@@ -4,7 +4,7 @@ from config import API_KEY, BASE_URL # Imports API credentials from the config f
 def convert_currency(base, target, amount):
 
     # Construct API endpoint URL with parameters
-    url = f"{BASE_URL}/{API_KEY}/pair/{base}/{target}/{amount}"
+    url = f"{BASE_URL}/pair/{base}/{target}/{amount}"
     res = requests.get(url) # Makes a GET request to the api
 
     # Checks if the request was successful (Which is status code 200)
