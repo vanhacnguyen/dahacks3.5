@@ -1,4 +1,6 @@
 from flask import Blueprint, request, jsonify
+import requests
+from datetime import date
 from utils.exchangerate import convert_currency
 from config import HISTORICAL_URL
 
@@ -24,16 +26,18 @@ def convert():
 
 @currency_bp.route('/api/currencies', methods=['GET'])
 def get_currency_codes():
-    from datetime import date
     today = date.today().isoformat()
-
-    # Sample date — change as needed
     url = f"{HISTORICAL_URL}&date={today}"
-    response = request.get(url)
 
-    if response.status_code == 200:
-        data = response.json()["data"]
-        currency_codes = list(data[today].keys())
-        return jsonify(currency_codes)
-    else:
-        return jsonify([]), 500
+    try:
+        response = requests.get(url)
+        if response.status_code == 200:
+            data = response.json().get("data", {})
+            # Safely get the nested date dictionary
+            day_data = data.get(today, {})
+            currency_codes = list(day_data.keys())
+            return jsonify(currency_codes)
+        else:
+            return jsonify({'error': f'Status {response.status_code}'}), response.status_code
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
