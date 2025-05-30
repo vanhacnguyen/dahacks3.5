@@ -2,7 +2,7 @@ from flask import Blueprint, request, jsonify
 import requests
 from datetime import date
 from utils.exchangerate import convert_currency
-from config import HISTORICAL_URL, HISTORICAL_KEY, BASE_URL
+from config import BASE_URL
 
 currency_bp = Blueprint('currency', __name__)
 
@@ -19,7 +19,7 @@ def convert():
         return jsonify({'error': 'Missing required parameters'}), 400
     
     # Calls the function that fetches exchange rate data
-    result =convert_currency(base, target, amount)
+    result = convert_currency(base, target, amount)
 
     # Outputs the results
     return jsonify(result)
