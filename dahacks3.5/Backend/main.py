@@ -45,15 +45,3 @@ def plot_rates(dates, rates, base_currency, target_currency, year, month):
     plt.xticks(rotation=45)
     plt.tight_layout()
     plt.show()
-
-if __name__ == "__main__":
-    base = "USD"
-    target = "EUR"
-    year = 2024
-    month = 5
-
-    dates, rates = collect_monthly_rates(base, target, year, month)
-    if dates and rates:
-        plot_rates(dates, rates, base, target, year, month)
-    else:
-        print("No data collected.")
