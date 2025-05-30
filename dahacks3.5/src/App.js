@@ -1,17 +1,14 @@
-import logo from './logo.svg';
 import './App.css';
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        
-        <input type="text" placeholder="Amount"></input>
-        <input type="text" placeholder="Amount"></input>
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
+    <div className="website">
+      <header className="website-header">
       </header>
+      <div className="input-container">
+        <input className="exchange-button" type="text" placeholder="USD to EUR" />
+        <input className="exchange-button" type="text" placeholder="EUR to USD" />
+      </div>
     </div>
   );
 }
