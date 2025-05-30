@@ -11,9 +11,6 @@ function App() {
   const [error, setError] = useState('');
 
   const handleConvert = () => {
-    console.log('baseCurrency:', baseCurrency);
-    console.log('targetCurrency:', targetCurrency);
-    console.log('amount:', amount);
     if (!baseCurrency || !targetCurrency || !amount) {
       setError('Please fill in all fields.');
       setConverted(null);
