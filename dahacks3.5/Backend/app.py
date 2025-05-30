@@ -3,14 +3,15 @@ from routes.currency import currency_bp
 from routes.historical_rate_map import historical_bp
 from flask_cors import CORS
 
+# Initialize Flask Application
 app = Flask(__name__)
-CORS(app)
+CORS(app) # Enables CORS for all routes
 
 # Register the blueprint
-app.register_blueprint(currency_bp)
-app.register_blueprint(historical_bp)
+app.register_blueprint(currency_bp) # Handles currency conversion
+app.register_blueprint(historical_bp) # handles the historical rate data
 
-# Add a root route for testing
+# Root route tat documents available API endpoints
 @app.route('/')
 def home():
     return jsonify({
@@ -22,4 +23,4 @@ def home():
     })
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=True) # Runs it in debug mode for testing
