@@ -14,7 +14,7 @@ function ExchangeRates() {
 
     return (
     <div>
-      <h2>Exchange Rate: {base} → {target} (May 2024)</h2>
+      <h2>Exchange Rate: {base} → {target} </h2>
       <div className="input-container">
         <input className="exchange-button" type="text" placeholder="USD to EUR" />
         <input className="exchange-button" type="text" placeholder="EUR to USD" />
