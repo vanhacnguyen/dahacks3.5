@@ -1,7 +1,9 @@
 from flask import Flask, jsonify
 from routes.currency import currency_bp
+from flask_cors import CORS
 
 app = Flask(__name__)
+CORS(app)
 
 # Register the blueprint
 app.register_blueprint(currency_bp)

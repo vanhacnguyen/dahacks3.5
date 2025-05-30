@@ -1,8 +1,8 @@
 from flask import Blueprint, request, jsonify
 import requests
 from datetime import date
-from exchangerate import convert_currency
-from config import HISTORICAL_URL, HISTORICAL_KEY
+from utils.exchangerate import convert_currency
+from config import HISTORICAL_URL, HISTORICAL_KEY, BASE_URL
 
 currency_bp = Blueprint('currency', __name__)
 
@@ -26,18 +26,19 @@ def convert():
 
 @currency_bp.route('/api/currencies', methods=['GET'])
 def get_currency_codes():
-    today = date.today().isoformat()
-    url = f"{HISTORICAL_URL}?apikey={HISTORICAL_KEY}&date={today}"
+
+    url = f"{BASE_URL}/codes"
 
     try:
         response = requests.get(url)
         if response.status_code == 200:
-            data = response.json().get("data", {})
-            # Safely get the nested date dictionary
-            day_data = data.get(today, {})
-            currency_codes = list(day_data.keys())
-            return jsonify(currency_codes)
+            data = response.json()
+            if data.get("result") == "success":
+                codes = [code[0] for code in data.get("supported_codes", [])]
+                return jsonify(codes)
+            else:
+                return jsonify({'error': 'API returned error'}), 500
         else:
-            return jsonify({'error': f'Status {response.status_code}'}), response.status_code
+            return jsonify({'error': f'status {response.status_code}'}), response.status_code
     except Exception as e:
         return jsonify({'error': str(e)}), 500
