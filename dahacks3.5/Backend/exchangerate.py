@@ -12,3 +12,9 @@ def convert_currency(base, target, amount):
         return res.json() # Returns the results
     else: # Incase it's not successful returns a error message
         return {'error': 'Failed to fetch the conversion data.'}
+    
+
+if __name__ == "__main__":
+    # Test the conversion function
+    result = convert_currency("USD", "EUR", 100)
+    print(result)

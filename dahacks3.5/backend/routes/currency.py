@@ -1,8 +1,8 @@
 from flask import Blueprint, request, jsonify
 import requests
 from datetime import date
-from utils.exchangerate import convert_currency
-from config import HISTORICAL_URL
+from exchangerate import convert_currency
+from config import HISTORICAL_URL, HISTORICAL_KEY
 
 currency_bp = Blueprint('currency', __name__)
 
@@ -27,7 +27,7 @@ def convert():
 @currency_bp.route('/api/currencies', methods=['GET'])
 def get_currency_codes():
     today = date.today().isoformat()
-    url = f"{HISTORICAL_URL}&date={today}"
+    url = f"{HISTORICAL_URL}?apikey={HISTORICAL_KEY}&date={today}"
 
     try:
         response = requests.get(url)
