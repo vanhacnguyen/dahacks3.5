@@ -13,7 +13,7 @@ def convert():
     base = request.args.get('base')
     target = request.args.get('target')
     amount = request.args.get('amount')
-
+    
     # Validates the input
     if not base or not target or amount is None:
         return jsonify({'error': 'Missing required parameters'}), 400

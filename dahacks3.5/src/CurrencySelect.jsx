@@ -1,34 +1,43 @@
 import React, { useEffect, useState } from 'react';
 import Select from 'react-select';
 
-function CurrencySelect() {
+function CurrencySelect({ baseCurrency, setBaseCurrency, targetCurrency, setTargetCurrency }) {
   const [currencyOptions, setCurrencyOptions] = useState([]);
-  const [baseCurrency, setBaseCurrency] = useState(null);
-  const [targetCurrency, setTargetCurrency] = useState(null);
+  const [loading, setLoading] = useState(true); // Renamed from isLoading to loading
 
   useEffect(() => {
-    fetch('http://localhost:5000/api/currencies')
-      .then(res => res.json())
-      .then(data => {
-        const options = data.map(code => ({ value: code, label: code }));
-        setCurrencyOptions(options);
-        setBaseCurrency(options[0]);
-        setTargetCurrency(options[1]);
+    fetch('http://127.0.0.1:5000/api/currencies')
+      .then(res => {
+        if (!res.ok) {
+          throw new Error('Network response was not ok');
+        }
+        return res.json();
       })
-      .catch(err => console.error("Failed to load currencies:", err));
+      .then(data => {
+        console.log("Fetched currencies:", data);
+        // Ensure data is an array before mapping
+        if (Array.isArray(data)) {
+          const options = data.map(code => ({ value: code, label: code }));
+          setCurrencyOptions(options);
+          if (options.length > 1) {
+            setBaseCurrency(options[0]);
+            setTargetCurrency(options[1]);
+          }
+        } else {
+          console.error("Expected array but got:", data);
+        }
+      })
+      .catch(err => {
+        console.error("Failed to load currencies:", err);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
   }, []);
 
-  const handleSubmit = () => {
-    if (!baseCurrency || !targetCurrency) return;
-
-    const query = `http://localhost:5000/api/rates?base=${baseCurrency.value}&target=${targetCurrency.value}&year=2024&month=5`;
-
-    fetch(query)
-      .then(res => res.json())
-      .then(data => {
-        console.log("Exchange Data:", data); // You can visualize it
-      });
-  };
+  if (loading) {
+    return <div>Loading currencies...</div>;
+  }
 
   return (
     <div>
@@ -39,17 +48,16 @@ function CurrencySelect() {
           options={currencyOptions}
           value={baseCurrency}
           onChange={setBaseCurrency}
+          isDisabled={currencyOptions.length === 0}
         />
         <label>Target Currency</label>
         <Select
           options={currencyOptions}
           value={targetCurrency}
           onChange={setTargetCurrency}
+          isDisabled={currencyOptions.length === 0}
         />
       </div>
-      <button onClick={handleSubmit} style={{ marginTop: "1rem" }}>
-        Get Rates
-      </button>
     </div>
   );
 }

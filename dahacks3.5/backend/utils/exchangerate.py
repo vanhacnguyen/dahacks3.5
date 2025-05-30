@@ -9,7 +9,13 @@ def convert_currency(base, target, amount):
 
     # Checks if the request was successful (Which is status code 200)
     if res.status_code == 200:
-        return res.json() # Returns the results
+        data = res.json() # Returns the results
+        return {
+            'base': base,
+            'target': target,
+            'rate': data.get('conversion_rate'),
+            'converted_amount': data.get('conversion_result')  # This is what frontend expects
+        }
     else: # Incase it's not successful returns a error message
         return {'error': 'Failed to fetch the conversion data.'}
     
