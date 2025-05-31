@@ -3,7 +3,7 @@ from routes.currency import currency_bp
 from flask_cors import CORS
 
 app = Flask(__name__)
-CORS(app)
+CORS(currency_bp)
 
 # Register the blueprint
 app.register_blueprint(currency_bp)

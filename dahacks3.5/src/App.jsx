@@ -62,25 +62,28 @@ function App() {
   return (
     <div className="website">
       <img src="website-pic1.png" alt="input background" className="input-bg" />
-      <header className="website-header">
+      <header className="header">
         <h2>Currency Converter</h2>
       </header>
+      <div className="exchange-button">
       <CurrencySelect
         baseCurrency={baseCurrency}
         setBaseCurrency={handleBaseCurrencyChange}
         targetCurrency={targetCurrency}
         setTargetCurrency={handleTargetCurrencyChange}
       />
-      <div className="input-container">
-        <input
+      </div>
+      <div style={{marginTop: 30}} className="exchange-button">
+                <input
           type="number"
           placeholder="Enter amount"
           value={amount}
           onChange={handleAmountChange}
         />
-        <img src="arrow.png" alt="arrow"/>
         <button onClick={handleConvert}>Convert</button>
-        {converted !== null && (
+      </div>
+      <div style={{marginTop: -5}} className="exchange-button">
+      {converted !== null && (
           <p>
             {amount} {baseCurrency?.value} = {converted.toFixed(2)} {targetCurrency?.value}
           </p>
