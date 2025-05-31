@@ -5,6 +5,7 @@ from utils.exchangerate import convert_currency
 from utils.currency_utils import fetch_available_currencies
 from config import BASE_URL
 
+# Creates a blueprint for currency-related routes
 currency_bp = Blueprint('currency', __name__)
 
 @currency_bp.route('/convert', methods=['GET'])
@@ -25,9 +26,9 @@ def convert():
     # Outputs the results
     return jsonify(result)
 
+# Fetches the available currencies from the API
 @currency_bp.route('/api/currencies', methods=['GET'])
 def get_currency_codes():
-    """Endpoint to get all available currency codes"""
     currencies = fetch_available_currencies()
     if currencies:
         return jsonify(currencies)

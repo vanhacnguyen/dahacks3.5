@@ -3,32 +3,27 @@ from config import BASE_URL
 
 def fetch_available_currencies():
 
+    # Construct API endpoint URL with parameters
     url = f"{BASE_URL}/codes"
 
     try:
+        # Makes a GET request to the API
         response = requests.get(url)
+
+        # Checks if request was successful
         if response.status_code == 200:
             data = response.json()
+
+            # Verifys if the API return was successfull or not
             if data.get("result") == "success":
+                
+                # Extracts the currency node from supported_codes array
+                # Each code is the first element of the sub-array
                 return [code[0] for code in data.get("supported_codes", [])]
     except Exception:
+
+        # if any errors occur, ignore the request and return a empty list
         pass
+
+    # returns a empty list if anything fails
     return []
-
-'''
-url = f"{BASE_URL}/codes"
-
-    try:
-        response = requests.get(url)
-        if response.status_code == 200:
-            data = response.json()
-            if data.get("result") == "success":
-                codes = [code[0] for code in data.get("supported_codes", [])]
-                return jsonify(codes)
-            else:
-                return jsonify({'error': 'API returned error'}), 500
-        else:
-            return jsonify({'error': f'status {response.status_code}'}), response.status_code
-    except Exception as e:
-        return jsonify({'error': str(e)}), 500
-'''
