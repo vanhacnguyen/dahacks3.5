@@ -14,7 +14,6 @@ function CurrencySelect({ baseCurrency, setBaseCurrency, targetCurrency, setTarg
         return res.json();
       })
       .then(data => {
-        console.log("Fetched currencies:", data);
         // Ensure data is an array before mapping
         if (Array.isArray(data)) {
           const options = data.map(code => ({ value: code, label: code }));
