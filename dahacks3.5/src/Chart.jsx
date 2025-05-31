@@ -2,6 +2,14 @@ import React, { useEffect, useState } from 'react';
 import { LineChart, Line, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'recharts';
 import CurrencySelect from './CurrencySelect';
 
+
+const limitedCurrencyOptions = [
+  { value: 'USD', label: 'USD - US Dollar' },
+  { value: 'EUR', label: 'EUR - Euro' },
+  { value: 'AUD', label: 'AUD - Australian Dollar' }
+];
+
+
 function Chart() {
   const [baseCurrency, setBaseCurrency] = useState(null);
   const [targetCurrency, setTargetCurrency] = useState(null);
