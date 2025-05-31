@@ -1,31 +1,70 @@
 import React, { useEffect, useState } from 'react';
+import { LineChart, Line, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'recharts';
+import CurrencySelect from './CurrencySelect';
 
-function ExchangeRates() {
+function Chart() {
+  const [baseCurrency, setBaseCurrency] = useState(null);
+  const [targetCurrency, setTargetCurrency] = useState(null);
   const [rates, setRates] = useState([]);
-  const [base, setBase] = useState("USD");
-  const [target, setTarget] = useState("EUR");
-  
-  useEffect(() => {
-    fetch(`http://localhost:5000/api/rates?base=${base}&target=${target}&year=2024&month=5`)
-      .then(res => res.json())
-      .then(data => setRates(data.data))
-      .catch(err => console.error("API Error:", err));
-  }, [base, target]);
+  const [noDataMessage, setNoDataMessage] = useState(null);
 
-    return (
+  useEffect(() => {
+    if (baseCurrency && targetCurrency) {
+      fetch(`http://localhost:5000/historical-rates?base=${baseCurrency.value}&target=${targetCurrency.value}`)
+        .then(res => res.json())
+        .then(data => {
+          console.log("API data:", data);
+          if (data.success) {
+            if (data.dates.length === 0) {
+              setRates([]);  // clear rates
+              setNoDataMessage(`No historical data available for ${baseCurrency.value} to ${targetCurrency.value} in selected month.`);
+            } else {
+              const combined = data.dates.map((date, i) => ({
+                date,
+                rate: data.rates[i]
+              }));
+              setRates(combined);
+              setNoDataMessage(null);
+            }
+        } else {
+          setRates([]);
+          console.error("API Error:", data.error);
+        }
+      })
+      .catch(err => {
+        setRates([]);
+        console.error("Fetch error:", err);
+      });
+  }
+}, [baseCurrency, targetCurrency]);
+
+  return (
     <div>
-      <h2>Exchange Rate: {base} → {target} </h2>
-      <div className="input-container">
-        <input className="exchange-button" type="text" placeholder="USD to EUR" />
-        <input className="exchange-button" type="text" placeholder="EUR to USD" />
-      </div>
-      <ul>
-        {rates.map(([date, rate], index) => (
-          <li key={index}>{date}: {rate}</li>
-        ))}
-      </ul>
+      <h2>Currency Rate Chart</h2>
+
+      <CurrencySelect
+        baseCurrency={baseCurrency}
+        setBaseCurrency={setBaseCurrency}
+        targetCurrency={targetCurrency}
+        setTargetCurrency={setTargetCurrency}
+      />
+
+      {noDataMessage ? (
+      <p>{noDataMessage}</p>
+      ) : rates.length > 0 ? (
+        <ResponsiveContainer width="100%" height={300}>
+          <LineChart data={rates}>
+            <XAxis dataKey="date" />
+            <YAxis />s
+            <Tooltip />
+            <Line type="monotone" dataKey="rate" stroke="#007bff" />
+          </LineChart>
+        </ResponsiveContainer>
+      ) : (
+        baseCurrency && targetCurrency && <p>Loading chart data...</p>
+      )}
     </div>
   );
 }
 
-export default ExchangeRates;
+export default Chart;

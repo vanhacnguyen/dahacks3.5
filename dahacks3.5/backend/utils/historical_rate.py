@@ -35,10 +35,13 @@ def collect_monthly_rates(base_currency, target_currency, year, month):
     dates = []
     rates = []
 
-    # Collects the reates for every 3 days
+
+    # Collects the rates for every 3 days
     for day in range(1, days_in_month + 1, 3):
+
         rate = get_daily_rate(base_currency, target_currency, year, month, day)
-        if rate:
+        print(f"Rate for {base_currency}->{target_currency} on {year}-{month:02}-{day:02}: {rate}")
+        if rate is not None:
             dates.append(f"{month:02}/{day:02}")
             rates.append(rate)
     

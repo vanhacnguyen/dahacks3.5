@@ -4,12 +4,14 @@ import './index.css';
 import App from './App';
 import CurrencySelect from './CurrencySelect';
 import reportWebVitals from './reportWebVitals';
+import Chart from './Chart';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
     <App />
-    <CurrencySelect />
+    <Chart />
+
   </React.StrictMode>
 );
 

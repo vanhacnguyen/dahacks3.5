@@ -40,6 +40,16 @@ def get_historical_rates():
                 'target': target,
                 'available_currencies': available_currencies
             })
+        else:
+        # Return success with empty data, frontend can handle this gracefully
+            return jsonify({
+                'success': True,
+                'dates': [],
+                'rates': [],
+                'base': base,
+                'target': target,
+                'message': 'No data available for selected currency and date range.'
+            })
         return jsonify({'success': False, 'error': 'No data available'})
     except Exception as e:
         return jsonify({'success': False, 'error': str(e)})
