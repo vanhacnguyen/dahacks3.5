@@ -8,7 +8,7 @@
   justify-content: flex-end; /* Push content to bottom */
   align-items: center;
   position: relative;
-  padding-top: 100px; /* Reserve space for fixed header */
+  padding-top: 0px; /* Reserve space for fixed header */
 }
 
 .header h2 {
@@ -16,6 +16,12 @@
   width: 100%;
   color:#161f6e;
   font-size:40px;
+}
+
+.center-text {
+  margin-top:100px;
+  font-family: 'Press Start 2P', cursive;
+  text-align: center;
 }
 
 h3 {

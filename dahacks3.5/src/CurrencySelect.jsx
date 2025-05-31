@@ -49,21 +49,26 @@ function CurrencySelect({ baseCurrency, setBaseCurrency, targetCurrency, setTarg
   return (
     <div>
       <h3>Select Currencies</h3>
-      <div style={{ width: 300 }}>
-        <label>Base Currency</label>
-        <Select
-          options={currencyOptions}
-          value={baseCurrency}
-          onChange={setBaseCurrency}
-          isDisabled={currencyOptions.length === 0}
-        />
-        <label>Target Currency</label>
-        <Select
-          options={currencyOptions}
-          value={targetCurrency}
-          onChange={setTargetCurrency}
-          isDisabled={currencyOptions.length === 0}
-        />
+      <div style={{ display: 'flex', gap: '40px', justifyContent: 'center' }}>
+        <div style={{ width: 250 }}>
+          <h4>Base Currency</h4>
+          <Select
+            options={currencyOptions}
+            value={baseCurrency}
+            onChange={setBaseCurrency}
+            isDisabled={currencyOptions.length === 0}
+          />
+        </div>
+        <img src="arrow.png" alt="arrow" className="arrow-img" />
+        <div style={{ width: 250 }}>
+          <h4>Target Currency</h4>
+          <Select
+            options={currencyOptions}
+            value={targetCurrency}
+            onChange={setTargetCurrency}
+            isDisabled={currencyOptions.length === 0}
+          />
+        </div>
       </div>
     </div>
   );

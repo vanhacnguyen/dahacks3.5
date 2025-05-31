@@ -2,7 +2,6 @@ import requests
 from config import HISTORICAL_KEY, HISTORICAL_URL
 from datetime import datetime
 from calendar import monthrange
-import matplotlib.pyplot as plt
 
 def get_daily_rate(base_currency, target_currency, year, month, day):
 
@@ -46,44 +45,3 @@ def collect_monthly_rates(base_currency, target_currency, year, month):
             rates.append(rate)
     
     return dates, rates
-
-def plot_rates(dates, rates, base_currency, target_currency, year, month):
-
-    # Creates figures with a specified size
-    plt.figure(figsize=(10, 5))
-    
-    # Plot the rates with markers and lines
-    plt.plot(dates, rates, marker='o', linestyle='-', color='blue')
-
-    # Add some titles and labels
-    plt.title(f"Exchange Rate: {base_currency} → {target_currency} ({year}-{month:02})")
-    plt.xlabel("Date")
-    plt.ylabel(f"Rate to {target_currency}")
-
-    # Customizes the plot
-    plt.grid(True)
-    plt.xticks(rotation=45)
-    plt.tight_layout()
-    plt.show()
-
-# Test code to make sure it runs well
-if __name__ == "__main__":
-    base = "USD"
-    target = "EUR"
-    year = 2024
-    month = 5
-
-    try:
-        dates, rates = collect_monthly_rates(base, target, year, month)
-
-        if dates and rates:
-            print(f"Collected {len(dates)} data points")
-            print("Dates:", dates)
-            print("Rates:", rates)
-
-            plot_rates(dates, rates, base, target, year, month)
-        else:
-            print("No data collected")
-    
-    except Exception as e:
-        print(f"Error occurred: {str(e)}")

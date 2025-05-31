@@ -47,7 +47,7 @@ function Chart() {
 }, [baseCurrency, targetCurrency]);
 
   return (
-    <div>
+    <div className="center-text">
       <h2>Currency Rate Chart</h2>
 
       <CurrencySelect
