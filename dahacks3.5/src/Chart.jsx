@@ -55,6 +55,7 @@ function Chart() {
         setBaseCurrency={setBaseCurrency}
         targetCurrency={targetCurrency}
         setTargetCurrency={setTargetCurrency}
+        options={limitedCurrencyOptions}
       />
 
       {noDataMessage ? (
